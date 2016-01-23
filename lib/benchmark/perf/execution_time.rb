@@ -69,7 +69,7 @@ module Benchmark
       # @api private
       def run_warmup(&work)
         GC.start
-        warmup.times do
+        @warmup.times do
           run_in_subprocess { ::Benchmark.realtime(&work) }
         end
       end
