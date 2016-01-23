@@ -20,7 +20,7 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
   it "executes code to warmup ruby vm" do
     bench = described_class.new
     sample = bench.run_warmup { 'x' * 1_000_000 }
-    expect(sample).to be < 0.01
+    expect(sample).to eq(1)
   end
 
   it "measures work performance for 10 samples" do
