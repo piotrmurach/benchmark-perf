@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/benchmark-perf.svg)][gem]
 [![Build Status](https://secure.travis-ci.org/peter-murach/benchmark-perf.svg?branch=master)][travis]
 [![Code Climate](https://codeclimate.com/github/peter-murach/benchmark-perf/badges/gpa.svg)][codeclimate]
-[![Coverage Status](https://coveralls.io/repos/github/peter-murach/benchmark-perf/badge.svg?branch-master)][coverage]
+[![Coverage Status](https://coveralls.io/repos/github/peter-murach/benchmark-perf/badge.svg?branch=master)][coverage]
 [![Inline docs](http://inch-ci.org/github/peter-murach/benchmark-perf.svg?branch=master)][inchpages]
 
 [gem]: http://badge.fury.io/rb/benchmark-perf
@@ -38,7 +38,19 @@ To see how long it takes to execute code do:
 
 ```ruby
 bench = Benchmark::Perf::ExecutionTime.new
-mean, stddev = bench.run(10) { ... }
+mean, stddev = bench.run { ... }
+```
+
+By default `30` samples are taken, and `1` sample for the warmup phase. If you need to change number of measurement samples do:
+
+```ruby
+bench = Benchmark::Perf::ExecutionTime.new samples: 10
+```
+
+And to change number of warmup cycles do:
+
+```ruby
+bench = Benchmark::Perf::ExecutionTime.new warmup: 2
 ```
 
 In order to check how many iterations per second a given code takes do:
