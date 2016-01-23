@@ -38,6 +38,10 @@ module Benchmark
 
     # Run given work and gather time statistics
     #
+    # @param [Float] threshold
+    #
+    # @return [Boolean]
+    #
     # @api public
     def assert_perform_under(threshold, options = {}, &work)
       bench = ExecutionTime.new(options)
@@ -46,6 +50,10 @@ module Benchmark
     end
 
     # Assert work is performed within expected iterations per second
+    #
+    # @param [Integer] iterations
+    #
+    # @return [Boolean]
     #
     # @api public
     def assert_perform_ips(iterations, options = {}, &work)

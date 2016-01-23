@@ -4,16 +4,22 @@ module Benchmark
   module Perf
     # Measure length of time the work could take on average
     #
-    # @api private
+    # @api public
     class ExecutionTime
       attr_reader :io
 
+      # Initialize execution time
+      #
+      # @param [Hash] options
+      #
       # @param options :warmup
       #   the number of cycles for warmup, default 1
       #
+      # @api public
       def initialize(options = {})
-        @io = options.fetch(:io) { nil }
+        @io      = options.fetch(:io) { nil }
         @samples = options.fetch(:samples) { 30 }
+        @warmup  = options.fetch(:warmup) { 1 }
       end
 
       # Set of ranges in linear progression
@@ -28,6 +34,12 @@ module Benchmark
       end
 
       # Isolate run in subprocess
+      #
+      # @example
+      #   iteration.run_in_subproces { ... }
+      #
+      # @return [Float]
+      #   the elapsed time of the measurement
       #
       # @api private
       def run_in_subprocess
@@ -52,11 +64,27 @@ module Benchmark
         Marshal.load(reader.read)
       end
 
+      # Run warmup measurement
+      #
+      # @api private
       def run_warmup(&work)
-        run_in_subprocess { ::Benchmark.realtime(&work) }
+        GC.start
+        warmup.times do
+          run_in_subprocess { ::Benchmark.realtime(&work) }
+        end
       end
 
       # Perform work x times
+      #
+      # @param [Integer] times
+      #   how many times sample the code measuremenets
+      #
+      # @example
+      #   iteration = Iteration.new
+      #   iteration.run(10) { ... }
+      #
+      # @return [Array[Float, Float]]
+      #   average and standard deviation
       #
       # @api public
       def run(times = (not_set = true), &work)
