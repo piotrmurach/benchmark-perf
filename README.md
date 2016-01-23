@@ -3,13 +3,13 @@
 [![Gem Version](https://badge.fury.io/rb/benchmark-perf.svg)][gem]
 [![Build Status](https://secure.travis-ci.org/peter-murach/benchmark-perf.svg?branch=master)][travis]
 [![Code Climate](https://codeclimate.com/github/peter-murach/benchmark-perf/badges/gpa.svg)][codeclimate]
-[![Coverage Status](https://coveralls.io/repos/peter-murach/benchmark-perf/badge.svg)][coverage]
+[![Coverage Status](https://coveralls.io/repos/github/peter-murach/benchmark-perf/badge.svg?branch-master)][coverage]
 [![Inline docs](http://inch-ci.org/github/peter-murach/benchmark-perf.svg?branch=master)][inchpages]
 
 [gem]: http://badge.fury.io/rb/benchmark-perf
 [travis]: http://travis-ci.org/peter-murach/benchmark-perf
 [codeclimate]: https://codeclimate.com/github/peter-murach/benchmark-perf
-[coverage]: https://coveralls.io/r/peter-murach/benchmark-perf
+[coverage]: https://coveralls.io/github/peter-murach/benchmark-perf?branch=master
 [inchpages]: http://inch-ci.org/github/peter-murach/benchmark-perf
 
 > Measure execution time and iterations per second.
