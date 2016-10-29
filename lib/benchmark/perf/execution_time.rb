@@ -2,6 +2,8 @@
 
 module Benchmark
   module Perf
+    MarshalError = Class.new(StandardError)
+
     # Measure length of time the work could take on average
     #
     # @api public
@@ -49,19 +51,24 @@ module Benchmark
         pid = Process.fork do
           GC.start
           GC.disable if ENV['BENCH_DISABLE_GC']
-          reader.close
 
+          reader.close
           time = yield
 
           io.print "%9.6f" % time if io
-          writer.write(Marshal.dump(time))
+          Marshal.dump(time, writer)
+
           GC.enable if ENV['BENCH_DISABLE_GC']
           exit!(0) # run without hooks
         end
 
-        writer.close
+        writer.close unless writer.closed?
         Process.waitpid(pid)
-        Marshal.load(reader.read)
+        begin
+          Marshal.load(reader)
+        rescue => e
+          raise MarshalError, "#{e.class}: #{e.message}"
+        end
       end
 
       # Run warmup measurement

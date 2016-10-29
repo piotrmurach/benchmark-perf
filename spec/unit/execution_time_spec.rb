@@ -17,6 +17,12 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
     expect(sample).to all(be < 0.01)
   end
 
+  it "measures complex object" do
+    bench = described_class.new
+    sample = bench.run { {foo: Object.new, bar: :piotr} }
+    expect(sample).to all(be < 0.001)
+  end
+
   it "executes code to warmup ruby vm" do
     bench = described_class.new
     sample = bench.run_warmup { 'x' * 1_000_000 }
