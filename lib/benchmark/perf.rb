@@ -16,9 +16,25 @@ module Benchmark
     #   the average of given measurements
     #
     # @api public
-    def average(measurements)
+    def self.average(measurements)
       return 0 if measurements.empty?
       measurements.reduce(&:+).to_f / measurements.size
+    end
+
+    # Calculate variance of measurements
+    #
+    # @param [Array[Float]] measurements
+    #
+    # @return [Float]
+    #
+    # @api public
+    def self.variance(measurements)
+      return 0 if measurements.empty?
+      avg = average(measurements)
+      total = measurements.reduce(0) do |sum, x|
+        sum + (x - avg)**2
+      end
+      total.to_f / measurements.size
     end
 
     # Calculate standard deviation
@@ -26,14 +42,9 @@ module Benchmark
     # @param [Array[Float]] measurements
     #
     # @api public
-    def std_dev(measurements)
+    def self.std_dev(measurements)
       return 0 if measurements.empty?
-      average = average(measurements)
-      Math.sqrt(
-        measurements.reduce(0) do |sum, x|
-          sum + (x - average)**2
-        end.to_f / (measurements.size - 1)
-      )
+      Math.sqrt(variance(measurements))
     end
 
     # Run given work and gather time statistics
@@ -43,7 +54,7 @@ module Benchmark
     # @return [Boolean]
     #
     # @api public
-    def assert_perform_under(threshold, options = {}, &work)
+    def self.assert_perform_under(threshold, options = {}, &work)
       bench = ExecutionTime.new(options)
       actual, _ = bench.run(&work)
       actual <= threshold
@@ -56,12 +67,10 @@ module Benchmark
     # @return [Boolean]
     #
     # @api public
-    def assert_perform_ips(iterations, options = {}, &work)
+    def self.assert_perform_ips(iterations, options = {}, &work)
       bench = Iteration.new(options)
       mean, stddev, _ = bench.run(&work)
       iterations <= (mean + 3 * stddev)
     end
-
-    extend Benchmark::Perf
   end # Perf
 end # Benchmark
