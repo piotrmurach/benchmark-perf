@@ -44,7 +44,7 @@ module Benchmark
       #   the elapsed time of the measurement
       #
       # @api private
-      def run_in_subprocess(&block)
+      def run_in_subprocess
         return yield unless Process.respond_to?(:fork)
 
         reader, writer = IO.pipe
