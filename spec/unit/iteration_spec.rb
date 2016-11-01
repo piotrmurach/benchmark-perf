@@ -15,4 +15,11 @@ RSpec.describe Benchmark::Perf::Iteration do
     expect(sample[1]).to be > 5
     expect(sample[2]).to be > 250
   end
+
+  it "does't measure broken code" do
+    bench = described_class.new
+    expect {
+      bench.run { raise 'boo' }
+    }.to raise_error(StandardError, /boo/)
+  end
 end
