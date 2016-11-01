@@ -17,6 +17,21 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
     expect(sample).to all(be < 0.01)
   end
 
+  it "doesn't benchmark raised exception" do
+    bench = described_class.new
+    expect {
+      bench.run { raise 'boo' }
+    }.to raise_error(StandardError)
+  end
+
+  it "fails to load marshalled data" do
+    bench = described_class.new
+    allow(Marshal).to receive(:load).and_raise('boo')
+    expect {
+      bench.run { 'x' * 1024 }
+    }.to raise_error(Benchmark::Perf::MarshalError)
+  end
+
   it "measures complex object" do
     bench = described_class.new
     sample = bench.run { {foo: Object.new, bar: :piotr} }

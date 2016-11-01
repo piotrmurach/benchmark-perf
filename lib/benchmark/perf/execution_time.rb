@@ -44,7 +44,7 @@ module Benchmark
       #   the elapsed time of the measurement
       #
       # @api private
-      def run_in_subprocess
+      def run_in_subprocess(&block)
         return yield unless Process.respond_to?(:fork)
 
         reader, writer = IO.pipe
@@ -52,22 +52,28 @@ module Benchmark
           GC.start
           GC.disable if ENV['BENCH_DISABLE_GC']
 
-          reader.close
-          time = yield
+          begin
+            reader.close
+            time = yield
 
-          io.print "%9.6f" % time if io
-          Marshal.dump(time, writer)
-
-          GC.enable if ENV['BENCH_DISABLE_GC']
-          exit!(0) # run without hooks
+            io.print "%9.6f" % data if io
+            Marshal.dump(time, writer)
+          rescue => error
+            Marshal.dump(error, writer)
+          ensure
+            GC.enable if ENV['BENCH_DISABLE_GC']
+            exit!(0) # run without hooks
+          end
         end
 
         writer.close unless writer.closed?
         Process.waitpid(pid)
         begin
-          Marshal.load(reader)
-        rescue => e
-          raise MarshalError, "#{e.class}: #{e.message}"
+          data = Marshal.load(reader)
+          raise data if data.is_a?(Exception)
+          data
+        rescue => error
+          raise MarshalError, "#{error.class}: #{error.message}"
         end
       end
 
@@ -77,7 +83,9 @@ module Benchmark
       def run_warmup(&work)
         GC.start
         @warmup.times do
-          run_in_subprocess { ::Benchmark.realtime(&work) }
+          run_in_subprocess do
+            ::Benchmark.realtime(&work)
+          end
         end
       end
 
@@ -101,7 +109,6 @@ module Benchmark
 
         range.each do
           GC.start
-
           measurements << run_in_subprocess do
             ::Benchmark.realtime(&work)
           end
