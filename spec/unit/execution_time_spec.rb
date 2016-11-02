@@ -26,7 +26,13 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
 
   it "fails to load marshalled data" do
     bench = described_class.new
-    allow(Marshal).to receive(:load).and_raise('boo')
+    #allow(::Marshal).to receive(:load).and_raise('boo')
+    fake = Class.new do
+      def load
+        raise 'boo'
+      end
+    end
+    stub_const("::Marshal", fake)
     expect {
       bench.run { 'x' * 1024 }
     }.to raise_error(Benchmark::Perf::MarshalError)
