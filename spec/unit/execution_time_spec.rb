@@ -24,24 +24,10 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
     }.to raise_error(StandardError)
   end
 
-  it "fails to load marshalled data" do
-    bench = described_class.new
-    #allow(::Marshal).to receive(:load).and_raise('boo')
-    fake = Class.new do
-      def load
-        raise 'boo'
-      end
-    end
-    stub_const("::Marshal", fake)
-    expect {
-      bench.run { 'x' * 1024 }
-    }.to raise_error(Benchmark::Perf::MarshalError)
-  end
-
   it "measures complex object" do
     bench = described_class.new
     sample = bench.run { {foo: Object.new, bar: :piotr} }
-    expect(sample).to all(be < 0.001)
+    expect(sample).to all(be < 0.01)
   end
 
   it "executes code to warmup ruby vm" do
