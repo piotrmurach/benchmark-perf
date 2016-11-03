@@ -1,5 +1,10 @@
 # Change log
 
+## [v0.2.0] - 2016-11-03
+
+### Changed
+* Remove rescuing marshalling errors
+
 ## [v0.2.0] - 2016-11-01
 
 ### Added
@@ -20,6 +25,7 @@
 
 Initial release
 
+[v0.2.1]: https://github.com/peter-murach/benchmark-perf/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/peter-murach/benchmark-perf/compare/v0.1.1...v0.2.0
 [v0.1.1]: https://github.com/peter-murach/benchmark-perf/compare/v0.1.0...v0.1.1
 [v0.1.0]: https://github.com/peter-murach/benchmark-perf/compare/v0.1.0
