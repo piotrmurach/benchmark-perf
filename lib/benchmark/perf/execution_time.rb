@@ -2,8 +2,6 @@
 
 module Benchmark
   module Perf
-    MarshalError = Class.new(StandardError)
-
     # Measure length of time the work could take on average
     #
     # @api public
@@ -68,13 +66,9 @@ module Benchmark
 
         writer.close unless writer.closed?
         Process.waitpid(pid)
-        begin
-          data = Marshal.load(reader)
-          raise data if data.is_a?(Exception)
-          data
-        rescue => error
-          raise MarshalError, "#{error.class}: #{error.message}"
-        end
+        data = Marshal.load(reader)
+        raise data if data.is_a?(Exception)
+        data
       end
 
       # Run warmup measurement
