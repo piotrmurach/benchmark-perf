@@ -5,14 +5,9 @@ module Benchmark
     # Measure number of iterations a work could take in a second
     #
     # @api private
-    class Iteration
+    module Iteration
       MICROSECONDS_PER_SECOND = 1_000_000
       MICROSECONDS_PER_100MS = 100_000
-
-      def initialize(options = {})
-        @time   = options.fetch(:time) { 2 } # Default 2 seconds for measurement
-        @warmup = options.fetch(:warmup) { 1 }
-      end
 
       # Call work by given times
       #
@@ -30,6 +25,7 @@ module Benchmark
           i += 1
         end
       end
+      module_function :call_times
 
       # Calcualte the number of cycles needed for 100ms
       #
@@ -45,13 +41,17 @@ module Benchmark
         cycles = (iterations * (MICROSECONDS_PER_100MS / elapsed_time)).to_i
         cycles <= 0 ? 1 : cycles
       end
+      module_function :cycles_per_100ms
 
       # Warmup run
       #
+      # @param [Numeric] warmup
+      #   the number of seconds for warmup
+      #
       # @api private
-      def run_warmup(&work)
+      def run_warmup(warmup: 1, &work)
         GC.start
-        target = Time.now + @warmup
+        target = Time.now + warmup
         iter = 0
 
         elapsed_time = ::Benchmark.realtime do
@@ -64,23 +64,27 @@ module Benchmark
         elapsed_time *= MICROSECONDS_PER_SECOND
         cycles_per_100ms(iter, elapsed_time)
       end
+      module_function :run_warmup
 
       # Run measurements
       #
+      # @param [Numeric] time
+      #   the time to run measurements for
+      #
       # @api public
-      def run(&work)
-        target = Time.now + @time
+      def run(time: 2, warmup: 1, &work)
+        target = Time.now + time
         iter = 0
         measurements = []
-        cycles = run_warmup(&work)
+        cycles = run_warmup(warmup: warmup, &work)
 
         GC.start
 
         while Time.now < target
-          time = ::Benchmark.realtime { call_times(cycles, &work) }
-          next if time <= 0.0 # Iteration took no time
+          bench_time = ::Benchmark.realtime { call_times(cycles, &work) }
+          next if bench_time <= 0.0 # Iteration took no time
           iter += cycles
-          measurements << time * MICROSECONDS_PER_SECOND
+          measurements << bench_time * MICROSECONDS_PER_SECOND
         end
 
         ips = measurements.map do |time_ms|
@@ -92,6 +96,7 @@ module Benchmark
 
         [Perf.average(ips).round, Perf.std_dev(ips).round, iter, elapsed_time]
       end
+      module_function :run
     end # Iteration
   end # Perf
 end # Benchmark
