@@ -2,13 +2,11 @@ source 'https://rubygems.org'
 
 gemspec
 
-group :development do
-  gem 'rspec', '~> 3.5.0'
-  gem 'yard',  '~> 0.8.7'
+group :test do
+  gem 'simplecov', '~> 0.16.1'
+  gem 'coveralls', '~> 0.8.22'
 end
 
 group :metrics do
-  gem 'coveralls', '~> 0.8.15'
-  gem 'simplecov', '~> 0.12.0'
   gem 'yardstick', '~> 0.9.9'
 end
