@@ -1,3 +1,1 @@
-# encoding: utf-8
-
-require 'benchmark/perf'
+require_relative 'benchmark/perf'

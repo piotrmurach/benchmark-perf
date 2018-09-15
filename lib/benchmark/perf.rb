@@ -1,10 +1,10 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 require 'benchmark'
 
-require 'benchmark/perf/execution_time'
-require 'benchmark/perf/iteration'
-require 'benchmark/perf/version'
+require_relative 'perf/execution_time'
+require_relative 'perf/iteration'
+require_relative 'perf/version'
 
 module Benchmark
   module Perf
