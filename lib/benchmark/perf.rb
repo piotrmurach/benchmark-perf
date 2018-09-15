@@ -68,8 +68,7 @@ module Benchmark
     #
     # @api public
     def self.assert_perform_ips(iterations, options = {}, &work)
-      bench = Iteration.new(options)
-      mean, stddev, _ = bench.run(&work)
+      mean, stddev, _ = Iteration.run(options, &work)
       iterations <= (mean + 3 * stddev)
     end
   end # Perf
