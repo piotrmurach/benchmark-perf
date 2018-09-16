@@ -70,5 +70,27 @@ module Benchmark
       mean, stddev, _ = Iteration.run(options, &work)
       iterations <= (mean + 3 * stddev)
     end
+
+    if defined?(Process::CLOCK_MONOTONIC)
+      # Object representing current time
+      def self.time_now
+        Process.clock_gettime Process::CLOCK_MONOTONIC
+      end
+    else
+      # Object represeting current time
+      def self.time_now
+        Time.now
+      end
+    end
+
+    # Measure time elapsed with a monotonic clock
+    #
+    # @public
+    def self.clock_time
+      before = time_now
+      yield
+      after = time_now
+      after - before
+    end
   end # Perf
 end # Benchmark
