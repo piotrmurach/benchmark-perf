@@ -5,33 +5,14 @@ module Benchmark
     # Measure length of time the work could take on average
     #
     # @api public
-    class ExecutionTime
-      attr_reader :io
-
-      # Initialize execution time
-      #
-      # @param [Hash] options
-      #
-      # @param options :warmup
-      #   the number of cycles for warmup, default 1
-      #
-      # @api public
-      def initialize(options = {})
-        @io      = options.fetch(:io) { nil }
-        @samples = options.fetch(:samples) { 30 }
-        @warmup  = options.fetch(:warmup) { 1 }
-      end
-
+    module ExecutionTime
       # Set of ranges in linear progression
       #
-      # @api private
+      # @api public
       def linear_range(min, max, step = 1)
         (min..max).step(step).to_a
       end
-
-      def bench_range
-        linear_range(1, @samples)
-      end
+      module_function :linear_range
 
       # Isolate run in subprocess
       #
@@ -42,7 +23,7 @@ module Benchmark
       #   the elapsed time of the measurement
       #
       # @api private
-      def run_in_subprocess
+      def run_in_subprocess(io: nil)
         return yield unless Process.respond_to?(:fork)
 
         reader, writer = IO.pipe
@@ -70,18 +51,23 @@ module Benchmark
         raise data if data.is_a?(Exception)
         data
       end
+      module_function :run_in_subprocess
 
       # Run warmup measurement
       #
+      # @param [Numeric] warmup
+      #   the warmup time
+      #
       # @api private
-      def run_warmup(&work)
+      def run_warmup(warmup: 1, &work)
         GC.start
-        @warmup.times do
+        warmup.times do
           run_in_subprocess do
             ::Benchmark.realtime(&work)
           end
         end
       end
+      module_function :run_warmup
 
       # Perform work x times
       #
@@ -96,14 +82,14 @@ module Benchmark
       #   average and standard deviation
       #
       # @api public
-      def run(times = (not_set = true), &work)
-        range = not_set ? bench_range : (0..times)
+      def run(times = (not_set = true), io: nil, warmup: 1, &work)
+        range = linear_range(1, not_set ? 29 : (times - 1))
         measurements = []
-        run_warmup(&work)
+        run_warmup(warmup: warmup, &work)
 
         range.each do
           GC.start
-          measurements << run_in_subprocess do
+          measurements << run_in_subprocess(io: io) do
             ::Benchmark.realtime(&work)
           end
         end
@@ -111,6 +97,7 @@ module Benchmark
 
         [Perf.average(measurements), Perf.std_dev(measurements)]
       end
+      module_function :run
     end # ExecutionTime
   end # Perf
 end # Benchmark
