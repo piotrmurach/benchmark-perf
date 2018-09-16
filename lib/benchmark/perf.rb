@@ -55,8 +55,7 @@ module Benchmark
     #
     # @api public
     def self.assert_perform_under(threshold, options = {}, &work)
-      bench = ExecutionTime.new(options)
-      actual, _ = bench.run(&work)
+      actual, _ = ExecutionTime.run(options, &work)
       actual <= threshold
     end
 

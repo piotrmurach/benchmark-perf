@@ -3,7 +3,7 @@
 RSpec.describe Benchmark::Perf, 'assertions' do
   it "passes asertion by performing under threshold" do
     bench = Benchmark::Perf
-    assertion = bench.assert_perform_under(0.01, samples: 2) { 'x' * 1_024 }
+    assertion = bench.assert_perform_under(0.01, times: 2) { 'x' * 1_024 }
     expect(assertion).to eq(true)
   end
 
