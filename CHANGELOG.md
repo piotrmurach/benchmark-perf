@@ -1,6 +1,6 @@
 # Change log
 
-## [v0.3.0] - 2018-09-xx
+## [v0.3.0] - 2018-09-16
 
 ### Added
 * Add a monotonic time measurement
