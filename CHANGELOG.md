@@ -1,6 +1,21 @@
 # Change log
 
-## [v0.2.0] - 2016-11-03
+## [v0.3.0] - 2018-09-xx
+
+### Added
+* Add a monotonic time measurement
+
+### Changed
+* Change to use Ruby >= 2.0.0
+* Change Iteration to be a module and remove state
+* Change ExecutionTime to be a module and remove state
+* Change ExecutionTime#run to accept :warmup, :times
+* Change ExecutionTime & Iteration to measure using monotonic clock
+
+### Fixed
+* Fixe ExecutionTime#run to correctly calculate linear range of samples
+
+## [v0.2.1] - 2016-11-03
 
 ### Changed
 * Remove rescuing marshalling errors
@@ -25,7 +40,8 @@
 
 Initial release
 
-[v0.2.1]: https://github.com/peter-murach/benchmark-perf/compare/v0.2.0...v0.2.1
-[v0.2.0]: https://github.com/peter-murach/benchmark-perf/compare/v0.1.1...v0.2.0
-[v0.1.1]: https://github.com/peter-murach/benchmark-perf/compare/v0.1.0...v0.1.1
-[v0.1.0]: https://github.com/peter-murach/benchmark-perf/compare/v0.1.0
+[v0.3.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.2.1...v0.3.0
+[v0.2.1]: https://github.com/piotrmurach/benchmark-perf/compare/v0.2.0...v0.2.1
+[v0.2.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.1.1...v0.2.0
+[v0.1.1]: https://github.com/piotrmurach/benchmark-perf/compare/v0.1.0...v0.1.1
+[v0.1.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.1.0
