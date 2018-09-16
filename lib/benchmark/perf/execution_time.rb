@@ -82,8 +82,8 @@ module Benchmark
       #   average and standard deviation
       #
       # @api public
-      def run(times = (not_set = true), io: nil, warmup: 1, &work)
-        range = linear_range(1, not_set ? 29 : (times - 1))
+      def run(times: 30, io: nil, warmup: 1, &work)
+        range = linear_range(1, times - 1)
         measurements = []
         run_warmup(warmup: warmup, &work)
 
