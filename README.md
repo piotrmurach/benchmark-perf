@@ -43,24 +43,29 @@ Or install it yourself as:
 
 ## 1. Usage
 
-To see how long it takes to execute code do:
+To see how long it takes to execute a piece of code:
 
 ```ruby
-bench = Benchmark::Perf::ExecutionTime.new
-mean, stddev = bench.run { ... }
+mean, stddev = Benchmark::Perf::ExecutionTime.run { ... }
+```
+
+or to see how many iterations per second a piece of code can achieve:
+
+```ruby
+mean, stddev, iter, elapsed_time = Benchmark::Perf::Iteration.run { ... }
 ```
 
 ## 2. API
 
 ### 2.1 Execution time
 
-By default `30` samples are taken, and `1` sample for the warmup phase. If you need to change number of measurement samples do:
+By default `30` samples are taken, and `1` sample for the warmup phase. If you need to change number of measurement samples use `:times`:
 
 ```ruby
-Benchmark::Perf::ExecutionTime.run(times: 10) { ... }
+mean, std_dev = Benchmark::Perf::ExecutionTime.run(times: 10) { ... }
 ```
 
-And to change number of warmup cycles do:
+And to change number of warmup cycles use `:warmup` keyword like so:
 
 ```ruby
 Benchmark::Perf::ExecutionTime.run(warmup: 2) { ... }
