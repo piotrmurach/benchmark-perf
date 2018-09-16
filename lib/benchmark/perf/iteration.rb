@@ -51,11 +51,11 @@ module Benchmark
       # @api private
       def run_warmup(warmup: 1, &work)
         GC.start
-        target = Time.now + warmup
+        target = Perf.time_now + warmup
         iter = 0
 
-        elapsed_time = ::Benchmark.realtime do
-          while Time.now < target
+        elapsed_time = Perf.clock_time do
+          while Perf.time_now < target
             call_times(1, &work)
             iter += 1
           end
@@ -81,7 +81,7 @@ module Benchmark
         GC.start
 
         while Time.now < target
-          bench_time = ::Benchmark.realtime { call_times(cycles, &work) }
+          bench_time = Perf.clock_time { call_times(cycles, &work) }
           next if bench_time <= 0.0 # Iteration took no time
           iter += cycles
           measurements << bench_time * MICROSECONDS_PER_SECOND

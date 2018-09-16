@@ -63,7 +63,7 @@ module Benchmark
         GC.start
         warmup.times do
           run_in_subprocess do
-            ::Benchmark.realtime(&work)
+            Perf.clock_time(&work)
           end
         end
       end
@@ -89,7 +89,7 @@ module Benchmark
         range.each do
           GC.start
           measurements << run_in_subprocess(io: io) do
-            ::Benchmark.realtime(&work)
+            Perf.clock_time(&work)
           end
         end
         io.puts if io
