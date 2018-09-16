@@ -75,8 +75,7 @@ module Benchmark
       #   how many times sample the code measuremenets
       #
       # @example
-      #   iteration = Iteration.new
-      #   iteration.run(10) { ... }
+      #   ExecutionTime.run(times: 10) { ... }
       #
       # @return [Array[Float, Float]]
       #   average and standard deviation
