@@ -82,7 +82,8 @@ module Benchmark
       #
       # @api public
       def run(times: 30, io: nil, warmup: 1, &work)
-        range = linear_range(1, times - 1)
+        check_greater(times, 0)
+        range = linear_range(1, times)
         measurements = []
         run_warmup(warmup: warmup, &work)
 
@@ -97,6 +98,22 @@ module Benchmark
         [Perf.average(measurements), Perf.std_dev(measurements)]
       end
       module_function :run
+
+      # Check if expected value is greater than minimum
+      #
+      # @param [Numeric] expected
+      # @param [Numeric] min
+      #
+      # @raise [ArgumentError]
+      #
+      # @api private
+      def check_greater(expected, min)
+        unless expected > min
+          raise ArgumentError,
+                "Times value: #{expected} needs to be greater than #{min}"
+        end
+      end
+      module_function :check_greater
     end # ExecutionTime
   end # Perf
 end # Benchmark
