@@ -71,8 +71,8 @@ module Benchmark
 
       # Perform work x times
       #
-      # @param [Integer] times
-      #   how many times sample the code measuremenets
+      # @param [Integer] repeat
+      #   how many times to repeat the code measuremenets
       #
       # @example
       #   ExecutionTime.run(times: 10) { ... }
@@ -81,13 +81,12 @@ module Benchmark
       #   average and standard deviation
       #
       # @api public
-      def run(times: 30, io: nil, warmup: 1, &work)
-        check_greater(times, 0)
-        range = linear_range(1, times)
+      def run(repeat: 1, io: nil, warmup: 1, &work)
+        check_greater(repeat, 0)
         measurements = []
         run_warmup(warmup: warmup, &work)
 
-        range.each do
+        repeat.times do
           GC.start
           measurements << run_in_subprocess(io: io) do
             Perf.clock_time(&work)
