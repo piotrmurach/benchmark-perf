@@ -1,5 +1,15 @@
 # Change log
 
+## [v0.4.0] - 2018-09-xx
+
+### Changed
+* Change ExecutionTime#run :times argument to :repeat
+* Change ExecutionTime#run to specify accepted values for :repeat argument
+* Change default measurements repeat time to be once
+
+### Fixed
+* Change ExecutionTime#run to correctly generate range
+
 ## [v0.3.0] - 2018-09-16
 
 ### Added
@@ -40,6 +50,7 @@
 
 Initial release
 
+[v0.4.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.2.1...v0.3.0
 [v0.2.1]: https://github.com/piotrmurach/benchmark-perf/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.1.1...v0.2.0
