@@ -59,7 +59,7 @@ mean, stddev, iter, elapsed_time = Benchmark::Perf::Iteration.run { ... }
 
 ### 2.1 Execution time
 
-By default `1` sample is taken, and `1` sample for the warmup phase. If you need to change number of measurement samples use `:repeat`:
+By default `1` measurement is taken, and `1` warmup cycle is run. If you need to change number of measurements taken use `:repeat`:
 
 ```ruby
 mean, std_dev = Benchmark::Perf::ExecutionTime.run(repeat: 10) { ... }
