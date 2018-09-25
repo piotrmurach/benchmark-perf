@@ -109,7 +109,7 @@ module Benchmark
       def check_greater(expected, min)
         unless expected > min
           raise ArgumentError,
-                "Times value: #{expected} needs to be greater than #{min}"
+                "Repeat value: #{expected} needs to be greater than #{min}"
         end
       end
       module_function :check_greater

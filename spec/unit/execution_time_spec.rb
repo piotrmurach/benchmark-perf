@@ -27,7 +27,7 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
     expect {
       described_class.run(repeat: 0) { 'x' }
     }.to raise_error(ArgumentError,
-                    'Times value: 0 needs to be greater than 0')
+                    'Repeat value: 0 needs to be greater than 0')
   end
 
   it "provides measurements for 30 samples by default" do
