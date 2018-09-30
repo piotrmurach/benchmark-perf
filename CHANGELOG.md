@@ -1,6 +1,6 @@
 # Change log
 
-## [v0.4.0] - 2018-09-xx
+## [v0.4.0] - 2018-09-30
 
 ### Changed
 * Change ExecutionTime#run :times argument to :repeat
@@ -8,7 +8,7 @@
 * Change default measurements repeat time to be once
 
 ### Fixed
-* Change ExecutionTime#run to correctly generate range
+* Change ExecutionTime#run to correctly generate repeats range
 
 ## [v0.3.0] - 2018-09-16
 
