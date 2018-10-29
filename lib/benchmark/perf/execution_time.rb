@@ -14,6 +14,12 @@ module Benchmark
       end
       module_function :linear_range
 
+      def run_with_fork?
+        return @perform_with_fork if defined?(@perform_with_fork)
+        @perform_with_fork = ENV["BENCH_PERF_FORK"] != 'false' && Process.respond_to?(:fork)
+      end
+      module_function :run_with_fork?
+
       # Isolate run in subprocess
       #
       # @example
@@ -24,7 +30,7 @@ module Benchmark
       #
       # @api private
       def run_in_subprocess(io: nil)
-        return yield unless Process.respond_to?(:fork)
+        return yield unless run_with_fork?
 
         reader, writer = IO.pipe
         pid = Process.fork do
