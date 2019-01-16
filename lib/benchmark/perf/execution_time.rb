@@ -40,14 +40,14 @@ module Benchmark
           begin
             reader.close
             time = yield
-
             io.print "%9.6f" % data if io
             Marshal.dump(time, writer)
           rescue => error
             Marshal.dump(error, writer)
           ensure
             GC.enable if ENV['BENCH_DISABLE_GC']
-            exit!(0) # run without hooks
+            writer.close
+            exit # allow finalizers to run
           end
         end
 
