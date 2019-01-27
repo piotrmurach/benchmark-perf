@@ -2,7 +2,7 @@
 language: ruby
 sudo: false
 cache: bundler
-before_install: "gem update bundler"
+before_install: "gem install bundler -v 1.17.3"
 script: "bundle exec rake ci"
 rvm:
   - 2.0.0
@@ -21,6 +21,7 @@ matrix:
     - rvm: ruby-head
     - rvm: jruby-head
       env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false'
+    - rvm: jruby-9.1.5.0
   fast_finish: true
 branches:
   only: master
