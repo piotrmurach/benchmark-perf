@@ -33,6 +33,9 @@ module Benchmark
         return yield unless run_with_fork?
 
         reader, writer = IO.pipe
+        reader.binmode
+        writer.binmode
+
         pid = Process.fork do
           GC.start
           GC.disable if ENV['BENCH_DISABLE_GC']
@@ -54,6 +57,7 @@ module Benchmark
         writer.close unless writer.closed?
         Process.waitpid(pid)
         data = Marshal.load(reader)
+        reader.close
         raise data if data.is_a?(Exception)
         data
       end
@@ -67,6 +71,7 @@ module Benchmark
       # @api private
       def run_warmup(warmup: 1, &work)
         GC.start
+
         warmup.times do
           run_in_subprocess do
             Perf.clock_time(&work)
