@@ -4,6 +4,7 @@ require 'benchmark'
 
 require_relative 'perf/execution_time'
 require_relative 'perf/iteration'
+require_relative 'perf/memory'
 require_relative 'perf/version'
 
 module Benchmark
@@ -18,6 +19,7 @@ module Benchmark
     # @api public
     def average(measurements)
       return 0 if measurements.empty?
+
       measurements.reduce(&:+).to_f / measurements.size
     end
     module_function :average
@@ -31,6 +33,7 @@ module Benchmark
     # @api public
     def variance(measurements)
       return 0 if measurements.empty?
+
       avg = average(measurements)
       total = measurements.reduce(0) do |sum, x|
         sum + (x - avg)**2
@@ -46,6 +49,7 @@ module Benchmark
     # @api public
     def std_dev(measurements)
       return 0 if measurements.empty?
+
       Math.sqrt(variance(measurements))
     end
     module_function :std_dev
@@ -81,14 +85,13 @@ module Benchmark
       def time_now
         Process.clock_gettime Process::CLOCK_MONOTONIC
       end
-      module_function :time_now
     else
       # Object represeting current time
       def time_now
         Time.now
       end
-      module_function :time_now
     end
+    module_function :time_now
 
     # Measure time elapsed with a monotonic clock
     #
