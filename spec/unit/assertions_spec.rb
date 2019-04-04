@@ -1,4 +1,4 @@
-# frozen_string_literal
+# frozen_string_literal: true
 
 RSpec.describe Benchmark::Perf, 'assertions' do
   it "passes asertion by performing under threshold" do
