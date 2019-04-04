@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-if RUBY_VERSION > '1.9' and (ENV['COVERAGE'] || ENV['TRAVIS'])
+if ENV['COVERAGE'] || ENV['TRAVIS']
   require 'simplecov'
   require 'coveralls'
 
@@ -15,7 +15,7 @@ if RUBY_VERSION > '1.9' and (ENV['COVERAGE'] || ENV['TRAVIS'])
   end
 end
 
-require 'benchmark-perf'
+require "benchmark-perf"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
