@@ -6,19 +6,13 @@ module Benchmark
     #
     # @api public
     module ExecutionTime
-      # Set of ranges in linear progression
+      # Check if measurements need to run in subprocess
       #
-      # @api public
-      def linear_range(min, max, step = 1)
-        (min..max).step(step).to_a
+      # @api private
+      def run_in_subprocess?
+        ENV["RUN_IN_SUBPROCESS"] != 'false' && Process.respond_to?(:fork)
       end
-      module_function :linear_range
-
-      def run_with_fork?
-        return @perform_with_fork if defined?(@perform_with_fork)
-        @perform_with_fork = ENV["BENCH_PERF_FORK"] != 'false' && Process.respond_to?(:fork)
-      end
-      module_function :run_with_fork?
+      module_function :run_in_subprocess?
 
       # Isolate run in subprocess
       #
@@ -29,8 +23,9 @@ module Benchmark
       #   the elapsed time of the measurement
       #
       # @api private
-      def run_in_subprocess(io: nil)
-        return yield unless run_with_fork?
+      def run_in_subprocess(subprocess: true, io: nil)
+        return yield unless subprocess && Process.respond_to?(:fork)
+        return yield unless run_in_subprocess?
 
         reader, writer = IO.pipe
         reader.binmode
@@ -69,11 +64,11 @@ module Benchmark
       #   the warmup time
       #
       # @api private
-      def run_warmup(warmup: 1, &work)
+      def run_warmup(warmup: 1, io: nil, subprocess: true, &work)
         GC.start
 
         warmup.times do
-          run_in_subprocess do
+          run_in_subprocess(io: io, subprocess: subprocess) do
             Perf.clock_time(&work)
           end
         end
@@ -92,14 +87,15 @@ module Benchmark
       #   average and standard deviation
       #
       # @api public
-      def run(repeat: 1, io: nil, warmup: 1, &work)
+      def run(repeat: 1, io: nil, warmup: 1, subprocess: true, &work)
         check_greater(repeat, 0)
         measurements = []
-        run_warmup(warmup: warmup, &work)
+
+        run_warmup(warmup: warmup, io: io, subprocess: subprocess, &work)
 
         repeat.times do
           GC.start
-          measurements << run_in_subprocess(io: io) do
+          measurements << run_in_subprocess(io: io, subprocess: subprocess) do
             Perf.clock_time(&work)
           end
         end
