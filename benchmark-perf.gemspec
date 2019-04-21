@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name          = "benchmark-perf"
   spec.version       = Benchmark::Perf::VERSION
   spec.authors       = ["Piotr Murach"]
-  spec.email         = [""]
+  spec.email         = ["me@piotrmurach.com"]
   spec.summary       = %q{Execution time and iteration performance benchmarking}
   spec.description   = %q{Execution time and iteration performance benchmarking}
   spec.homepage      = ""
@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.0.0'
 
-  spec.add_development_dependency 'bundler', '~> 1.16'
+  spec.add_development_dependency 'bundler', '>= 1.16'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rake'
 end
