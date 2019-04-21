@@ -1,5 +1,14 @@
 # Change log
 
+## [v0.5.0] - 2019-04-21
+
+### Added
+* Add :subprocess option To ExecutionTime#run for toggling forking behaviour
+
+### Changed
+* Remove ExecutiomTime#linear_range
+* Change to relax development dependencies versions
+
 ## [v0.4.0] - 2018-09-30
 
 ### Changed
