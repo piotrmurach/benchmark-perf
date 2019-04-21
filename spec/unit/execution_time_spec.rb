@@ -26,7 +26,7 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
   end
 
   it "doesn't run in subproces when option :run_in_subprocess is set to false",
-    unless: ::Process.respond_to?(:fork) do
+    if: ::Process.respond_to?(:fork) do
 
     allow(::Process).to receive(:fork)
 
@@ -36,7 +36,7 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
   end
 
   it "doesn't run in subprocess when RUN_IN_SUBPROCESS env var is set to false",
-    unless: ::Process.respond_to?(:fork) do
+    if: ::Process.respond_to?(:fork) do
 
     allow(::Process).to receive(:fork)
     allow(ENV).to receive(:[]).with("RUN_IN_SUBPROCESS").and_return('false')
