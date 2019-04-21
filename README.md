@@ -77,6 +77,14 @@ If you're interested in having debug output to see exact measurements for each i
 Benchmark::Perf::ExecutionTime.run(io: $stdout) { ... }
 ```
 
+By default all measurements are done in subprocess to isolate them from other process activities. This may have negative consequences, for example when your code uses database connections and transactions. To switch this behaviour off use `:subprocess` option.
+
+```ruby
+Benchmark::Perf::ExeuctionTime.run(subprocess: false) { ... }
+```
+
+Or use the environment variable `RUN_IN_SUBPROCESS` to toggle the behaviour.
+
 ### 2.2 Iterations
 
 In order to check how many iterations per second a given code takes do:
