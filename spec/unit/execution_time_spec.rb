@@ -25,7 +25,9 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
     expect(described_class).to have_received(:run_in_subprocess).twice
   end
 
-  it "doesn't run in subproces when option :run_in_subprocess is set to false" do
+  it "doesn't run in subproces when option :run_in_subprocess is set to false",
+    unless: ::Process.respond_to?(:fork) do
+
     allow(::Process).to receive(:fork)
 
     described_class.run(subprocess: false) { 'x' * 1024 }
@@ -33,7 +35,9 @@ RSpec.describe Benchmark::Perf::ExecutionTime do
     expect(::Process).to_not have_received(:fork)
   end
 
-  it "doesn't run in subprocess when RUN_IN_SUBPROCESS env var is set to false" do
+  it "doesn't run in subprocess when RUN_IN_SUBPROCESS env var is set to false",
+    unless: ::Process.respond_to?(:fork) do
+
     allow(::Process).to receive(:fork)
     allow(ENV).to receive(:[]).with("RUN_IN_SUBPROCESS").and_return('false')
 
