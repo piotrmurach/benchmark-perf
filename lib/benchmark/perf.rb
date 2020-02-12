@@ -60,8 +60,8 @@ module Benchmark
     # @return [Boolean]
     #
     # @api public
-    def assert_perform_under(threshold, options = {}, &work)
-      actual, _ = ExecutionTime.run(options, &work)
+    def assert_perform_under(threshold, **options, &work)
+      actual, _ = ExecutionTime.run(**options, &work)
       actual <= threshold
     end
     module_function :assert_perform_under
@@ -73,8 +73,8 @@ module Benchmark
     # @return [Boolean]
     #
     # @api public
-    def assert_perform_ips(iterations, options = {}, &work)
-      mean, stddev, _ = Iteration.run(options, &work)
+    def assert_perform_ips(iterations, **options, &work)
+      mean, stddev, _ = Iteration.run(**options, &work)
       iterations <= (mean + 3 * stddev)
     end
     module_function :assert_perform_ips
