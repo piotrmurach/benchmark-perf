@@ -1,27 +1,24 @@
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'benchmark/perf/version'
+require_relative "lib/benchmark/perf/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "benchmark-perf"
   spec.version       = Benchmark::Perf::VERSION
   spec.authors       = ["Piotr Murach"]
-  spec.email         = ["me@piotrmurach.com"]
+  spec.email         = ["piotr@piotrmurach.com"]
   spec.summary       = %q{Execution time and iteration performance benchmarking}
   spec.description   = %q{Execution time and iteration performance benchmarking}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/piotrmurach/benchmark-perf"
   spec.license       = "MIT"
-
-  spec.files         = Dir['{lib,spec}/**/*.rb']
-  spec.files        += Dir['tasks/*', 'benchmark-perf.gemspec']
-  spec.files        += Dir['README.md', 'CHANGELOG.md', 'LICENSE.txt', 'Rakefile']
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^spec/})
+  spec.metadata = {
+    "allowed_push_host" => "https://rubygems.org",
+    "bug_tracker_uri"   => "https://github.com/piotrmurach/benchmark-perf/issues",
+    "changelog_uri"     => "https://github.com/piotrmurach/benchmark-perf/blob/master/CHANGELOG.md",
+    "documentation_uri" => "https://www.rubydoc.info/gems/benchmark-perf",
+    "homepage_uri"      => spec.homepage,
+    "source_code_uri"   => "https://github.com/piotrmurach/benchmark-perf"
+  }
+  spec.files         = Dir["lib/**/*", "README.md", "CHANGELOG.md", "LICENSE.txt"]
+  spec.extra_rdoc_files = ["README.md", "CHANGELOG.md"]
   spec.require_paths = ["lib"]
-
-  spec.required_ruby_version = '>= 2.0.0'
-
-  spec.add_development_dependency 'bundler', '>= 1.16'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rake'
+  spec.required_ruby_version = ">= 2.0.0"
 end
