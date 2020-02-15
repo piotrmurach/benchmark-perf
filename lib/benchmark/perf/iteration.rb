@@ -51,6 +51,7 @@ module Benchmark
       # @api private
       def run_warmup(warmup: 1, &work)
         GC.start
+
         target = Perf.time_now + warmup
         iter = 0
 
@@ -69,18 +70,22 @@ module Benchmark
       # Run measurements
       #
       # @param [Numeric] time
-      #   the time to run measurements for
+      #   the time to run measurements in seconds
+      # @param [Numeric] warmup
+      #   the warmup time in seconds
       #
       # @api public
       def run(time: 2, warmup: 1, &work)
-        target = Time.now + time
-        iter = 0
-        measurements = []
         cycles = run_warmup(warmup: warmup, &work)
 
         GC.start
 
-        while Time.now < target
+        iter = 0
+        measurements = []
+
+        target = (before = Perf.time_now) + time
+
+        while Perf.time_now < target
           bench_time = Perf.clock_time { call_times(cycles, &work) }
           next if bench_time <= 0.0 # Iteration took no time
           iter += cycles
@@ -91,8 +96,8 @@ module Benchmark
           (cycles / time_ms) * MICROSECONDS_PER_SECOND
         end
 
-        final_time = Time.now
-        elapsed_time = (final_time - target).abs
+        final_time = Perf.time_now
+        elapsed_time = (final_time - before).abs
 
         [Perf.average(ips).round, Perf.std_dev(ips).round, iter, elapsed_time]
       end
