@@ -2,6 +2,6 @@
 
 module Benchmark
   module Perf
-    VERSION = "0.5.0"
+    VERSION = "0.6.0"
   end # Perf
 end # Benchmark
