@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["piotr@piotrmurach.com"]
   spec.summary       = %q{Execution time and iteration performance benchmarking}
   spec.description   = %q{Execution time and iteration performance benchmarking}
+
   spec.homepage      = "https://github.com/piotrmurach/benchmark-perf"
   spec.license       = "MIT"
   spec.metadata = {
@@ -17,8 +18,9 @@ Gem::Specification.new do |spec|
     "homepage_uri"      => spec.homepage,
     "source_code_uri"   => "https://github.com/piotrmurach/benchmark-perf"
   }
-  spec.files         = Dir["lib/**/*", "README.md", "CHANGELOG.md", "LICENSE.txt"]
+
+  spec.files            = Dir["lib/**/*", "LICENSE.txt"]
   spec.extra_rdoc_files = ["README.md", "CHANGELOG.md"]
-  spec.require_paths = ["lib"]
+  spec.require_paths    = ["lib"]
   spec.required_ruby_version = ">= 2.0.0"
 end
