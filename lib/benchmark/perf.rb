@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'benchmark'
-
-require_relative 'perf/execution_time'
-require_relative 'perf/iteration'
-require_relative 'perf/version'
+require_relative "perf/execution_time"
+require_relative "perf/iteration"
+require_relative "perf/version"
 
 module Benchmark
   module Perf
