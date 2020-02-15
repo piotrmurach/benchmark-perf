@@ -78,29 +78,5 @@ module Benchmark
       iterations <= (mean + 3 * stddev)
     end
     module_function :assert_perform_ips
-
-    if defined?(Process::CLOCK_MONOTONIC)
-      # Object representing current time
-      def time_now
-        Process.clock_gettime Process::CLOCK_MONOTONIC
-      end
-    else
-      # Object represeting current time
-      def time_now
-        Time.now
-      end
-    end
-    module_function :time_now
-
-    # Measure time elapsed with a monotonic clock
-    #
-    # @public
-    def clock_time
-      before = time_now
-      yield
-      after = time_now
-      after - before
-    end
-    module_function :clock_time
   end # Perf
 end # Benchmark

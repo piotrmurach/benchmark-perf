@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
+require_relative "clock"
+
 module Benchmark
   module Perf
     # Measure number of iterations a work could take in a second
     #
     # @api private
     module Iteration
-      MICROSECONDS_PER_SECOND = 1_000_000
-      MICROSECONDS_PER_100MS = 100_000
-
       # Call work by given times
       #
       # @param [Integer] times
@@ -38,7 +37,7 @@ module Benchmark
       #
       # @api private
       def cycles_per_100ms(iterations, elapsed_time)
-        cycles = (iterations * (MICROSECONDS_PER_100MS / elapsed_time)).to_i
+        cycles = (iterations * (Clock::MICROSECONDS_PER_100MS / elapsed_time)).to_i
         cycles <= 0 ? 1 : cycles
       end
       module_function :cycles_per_100ms
@@ -52,17 +51,17 @@ module Benchmark
       def run_warmup(warmup: 1, &work)
         GC.start
 
-        target = Perf.time_now + warmup
+        target = Clock.now + warmup
         iter = 0
 
-        elapsed_time = Perf.clock_time do
-          while Perf.time_now < target
+        elapsed_time = Clock.measure do
+          while Clock.now < target
             call_times(1, &work)
             iter += 1
           end
         end
 
-        elapsed_time *= MICROSECONDS_PER_SECOND
+        elapsed_time *= Clock::MICROSECONDS_PER_SECOND
         cycles_per_100ms(iter, elapsed_time)
       end
       module_function :run_warmup
@@ -83,20 +82,20 @@ module Benchmark
         iter = 0
         measurements = []
 
-        target = (before = Perf.time_now) + time
+        target = (before = Clock.now) + time
 
-        while Perf.time_now < target
-          bench_time = Perf.clock_time { call_times(cycles, &work) }
+        while Clock.now < target
+          bench_time = Clock.measure { call_times(cycles, &work) }
           next if bench_time <= 0.0 # Iteration took no time
           iter += cycles
-          measurements << bench_time * MICROSECONDS_PER_SECOND
+          measurements << bench_time * Clock::MICROSECONDS_PER_SECOND
         end
 
         ips = measurements.map do |time_ms|
-          (cycles / time_ms) * MICROSECONDS_PER_SECOND
+          (cycles / time_ms) * Clock::MICROSECONDS_PER_SECOND
         end
 
-        final_time = Perf.time_now
+        final_time = Clock.now
         elapsed_time = (final_time - before).abs
 
         [Perf.average(ips).round, Perf.std_dev(ips).round, iter, elapsed_time]

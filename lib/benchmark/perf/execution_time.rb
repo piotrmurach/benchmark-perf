@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "clock"
+
 module Benchmark
   module Perf
     # Measure length of time the work could take on average
@@ -69,7 +71,7 @@ module Benchmark
 
         warmup.times do
           run_in_subprocess(io: io, subprocess: subprocess) do
-            Perf.clock_time(&work)
+            Clock.measure(&work)
           end
         end
       end
@@ -96,7 +98,7 @@ module Benchmark
         repeat.times do
           GC.start
           measurements << run_in_subprocess(io: io, subprocess: subprocess) do
-            Perf.clock_time(&work)
+            Clock.measure(&work)
           end
         end
         io.puts if io
