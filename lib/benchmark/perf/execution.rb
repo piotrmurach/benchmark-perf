@@ -7,7 +7,7 @@ module Benchmark
     # Measure length of time the work could take on average
     #
     # @api public
-    module ExecutionTime
+    module Execution
       # Check if measurements need to run in subprocess
       #
       # @api private
@@ -83,7 +83,7 @@ module Benchmark
       #   how many times to repeat the code measuremenets
       #
       # @example
-      #   ExecutionTime.run(times: 10) { ... }
+      #   ExecutionTime.run(repeat: 10) { ... }
       #
       # @return [Array[Float, Float]]
       #   average and standard deviation

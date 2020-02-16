@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Benchmark::Perf::ExecutionTime do
+RSpec.describe Benchmark::Perf::Execution do
   it "provides default benchmark range" do
     allow(described_class).to receive(:run_in_subprocess).and_return(0.1)
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "perf/execution_time"
+require_relative "perf/execution"
 require_relative "perf/iteration"
 require_relative "perf/version"
 
@@ -41,7 +41,7 @@ module Benchmark
     #
     # @api public
     def cpu(**options, &work)
-      ExecutionTime.run(**options, &work)
+      Execution.run(**options, &work)
     end
     module_function :cpu
   end # Perf
