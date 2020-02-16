@@ -6,30 +6,43 @@ require_relative "perf/version"
 
 module Benchmark
   module Perf
-    # Run given work and gather time statistics
+    # Measure iterations a work could take in a second
     #
-    # @param [Float] threshold
+    # @example
+    #   Benchmark::Perf.ips { "foo" + "bar" }
     #
-    # @return [Boolean]
+    # @param [Numeric] time
+    #   the time to run measurements in seconds
+    # @param [Numeric] warmup
+    #   the warmup time in seconds
+    #
+    # @return [Array[Integer, Integer, Integer, Float]]
+    #   the average, standard deviation, iterations and time
     #
     # @api public
-    def assert_perform_under(threshold, **options, &work)
-      actual, _ = ExecutionTime.run(**options, &work)
-      actual <= threshold
+    def ips(**options, &work)
+      Iteration.run(**options, &work)
     end
-    module_function :assert_perform_under
+    module_function :ips
 
-    # Assert work is performed within expected iterations per second
+    # Measure execution time(a.k.a cpu time) of a given work
     #
-    # @param [Integer] iterations
+    # @example
+    #   Benchmark::Perf.cpu { "foo" + "bar" }
     #
-    # @return [Boolean]
+    # @param [Numeric] time
+    #   the time to run measurements in seconds
+    # @param [Numeric] warmup
+    #   the warmup time in seconds
+    # @param [Integer] repeat
+    #   how many times to repeat measurements
+    #
+    # @return [Array[Float, Float]]
     #
     # @api public
-    def assert_perform_ips(iterations, **options, &work)
-      mean, stddev, _ = Iteration.run(**options, &work)
-      iterations <= (mean + 3 * stddev)
+    def cpu(**options, &work)
+      ExecutionTime.run(**options, &work)
     end
-    module_function :assert_perform_ips
+    module_function :cpu
   end # Perf
 end # Benchmark
