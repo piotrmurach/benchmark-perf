@@ -29,15 +29,17 @@ module Benchmark
       # Calcualte the number of cycles needed for 100ms
       #
       # @param [Integer] iterations
-      # @param [Float] elapsed_time
-      #   the total time for all iterations
+      # @param [Float] time_s
+      #   the total time for all iterations in seconds
       #
       # @return [Integer]
       #   the cycles per 100ms
       #
       # @api private
-      def cycles_per_100ms(iterations, elapsed_time)
-        cycles = (iterations * (Clock::MICROSECONDS_PER_100MS / elapsed_time)).to_i
+      def cycles_per_100ms(iterations, time_s)
+        cycles = iterations * Clock::MICROSECONDS_PER_100MS
+        cycles /= time_s * Clock::MICROSECONDS_PER_SECOND
+        cycles = cycles.to_i
         cycles <= 0 ? 1 : cycles
       end
       module_function :cycles_per_100ms
@@ -54,15 +56,14 @@ module Benchmark
         target = Clock.now + warmup
         iter = 0
 
-        elapsed_time = Clock.measure do
+        time_s = Clock.measure do
           while Clock.now < target
             call_times(1, &work)
             iter += 1
           end
         end
 
-        elapsed_time *= Clock::MICROSECONDS_PER_SECOND
-        cycles_per_100ms(iter, elapsed_time)
+        cycles_per_100ms(iter, time_s)
       end
       module_function :run_warmup
 
@@ -75,7 +76,7 @@ module Benchmark
       #
       # @api public
       def run(time: 2, warmup: 1, &work)
-        cycles = run_warmup(warmup: warmup, &work)
+        cycles_in_100ms = run_warmup(warmup: warmup, &work)
 
         GC.start
 
@@ -85,18 +86,18 @@ module Benchmark
         target = (before = Clock.now) + time
 
         while Clock.now < target
-          bench_time = Clock.measure { call_times(cycles, &work) }
-          next if bench_time <= 0.0 # Iteration took no time
-          iter += cycles
-          measurements << bench_time * Clock::MICROSECONDS_PER_SECOND
-        end
-
-        ips = measurements.map do |time_ms|
-          (cycles / time_ms) * Clock::MICROSECONDS_PER_SECOND
+          time_s = Clock.measure { call_times(cycles_in_100ms, &work) }
+          next if time_s <= 0.0 # Iteration took no time
+          iter += cycles_in_100ms
+          measurements << time_s
         end
 
         final_time = Clock.now
         elapsed_time = (final_time - before).abs
+
+        ips = measurements.map do |time_s|
+          (cycles_in_100ms.to_f / time_s.to_f)
+        end
 
         [Perf.average(ips).round, Perf.std_dev(ips).round, iter, elapsed_time]
       end
