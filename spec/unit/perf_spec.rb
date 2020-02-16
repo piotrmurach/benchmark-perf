@@ -2,7 +2,7 @@
 
 RSpec.describe Benchmark::Perf do
   it "provides execution time performance information" do
-    result = Benchmark::Perf.cpu(repeat: 2) { "foo" + "bar" }
+    result = Benchmark::Perf.cpu { "foo" + "bar" }
 
     expect(result).to contain_exactly(
       a_kind_of(Float),
@@ -11,7 +11,7 @@ RSpec.describe Benchmark::Perf do
   end
 
   it "provides iterations per second performance information" do
-    result = Benchmark::Perf.ips(warmup: 0.1, time: 0.2) do
+    result = Benchmark::Perf.ips(warmup: 0.01, time: 0.02) do
       "foo" + "bar"
     end
 
