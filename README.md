@@ -43,44 +43,48 @@ Or install it yourself as:
 
 ## 1. Usage
 
-To see how long it takes to execute a piece of code:
+To see how long it takes to execute a piece of code do:
 
 ```ruby
-mean, stddev = Benchmark::Perf::ExecutionTime.run { ... }
+mean, stddev = Benchmark::Perf.cpu { ... }
 ```
 
-or to see how many iterations per second a piece of code can achieve:
+Or to see how many iterations per second a piece of code takes do:
 
 ```ruby
-mean, stddev, iter, elapsed_time = Benchmark::Perf::Iteration.run { ... }
+mean, stddev, iter, elapsed_time = Benchmark::Perf.ips { ... }
 ```
 
 ## 2. API
 
 ### 2.1 Execution time
 
-By default `1` measurement is taken, and `1` warmup cycle is run. If you need to change number of measurements taken use `:repeat`:
+By default `1` measurement is taken, and before that `1` warmup cycle is run.
+
+If you need to change how many measurements are taken, use the `:repeat` option:
 
 ```ruby
-mean, std_dev = Benchmark::Perf::ExecutionTime.run(repeat: 10) { ... }
+mean, std_dev = Benchmark::Perf.cpu(repeat: 10) { ... }
 ```
 
-And to change number of warmup cycles use `:warmup` keyword like so:
+Increasing the number of measurements will lead to more stable results at the price of longer runtime.
+
+To change how many warmup cycles are done before measuring, use `:warmup` option like so:
 
 ```ruby
-Benchmark::Perf::ExecutionTime.run(warmup: 2) { ... }
+Benchmark::Perf.cpu(warmup: 2) { ... }
 ```
 
-If you're interested in having debug output to see exact measurements for each iteration specify stream with `:io`:
+If you're interested in having debug output to see exact measurements for each measurement sample use the `:io` option and pass alternative stream:
 
 ```ruby
 Benchmark::Perf::ExecutionTime.run(io: $stdout) { ... }
 ```
 
-By default all measurements are done in subprocess to isolate them from other process activities. This may have negative consequences, for example when your code uses database connections and transactions. To switch this behaviour off use `:subprocess` option.
+By default all measurements are done in subprocess to isolate the measured code from other process activities. Sometimes this may have some unintended consequences. For example, when code uses database connections and transactions, this may lead to lost connections. To switch running in subprocess off, use the `:subprocess` option:
 
 ```ruby
-Benchmark::Perf::ExeuctionTime.run(subprocess: false) { ... }
+Benchmark::Perf.cpu(subprocess: false) { ... }
 ```
 
 Or use the environment variable `RUN_IN_SUBPROCESS` to toggle the behaviour.
@@ -90,19 +94,19 @@ Or use the environment variable `RUN_IN_SUBPROCESS` to toggle the behaviour.
 In order to check how many iterations per second a given code takes do:
 
 ```ruby
-mean, stddev, iter, elapsed_time = Benchmark::Perf::Iteration.run { ... }
+mean, stddev, iter, elapsed_time = Benchmark::Perf.ips { ... }
 ```
 
-By default `1` second is spent warming up Ruby VM, you change this passing `:warmup` :
+By default `1` second is spent warming up Ruby VM, you can change this with the `:warmup` option that expects time value in seconds:
 
 ```ruby
-Benchmark::Perf::Itertion.run(warmup: 1.45) { ... } # 1.45 second
+Benchmark::Perf.ips(warmup: 1.45) { ... } # 1.45 second
 ```
 
-The measurements as sampled for `2` seconds, you can change this value to increase precision using `:time`:
+The measurements are sampled for `2` seconds by default. You can change this value to increase precision using `:time` option:
 
 ```ruby
-Benchmark::Perf::Iteration.run(time: 3.5) { ... } # 3.5 seconds
+Benchmark::Perf.ips(time: 3.5) { ... } # 3.5 seconds
 ```
 
 ## Contributing
