@@ -1,5 +1,20 @@
 # Change log
 
+## [v0.6.0] - 2020-02-16
+
+### Added
+* Add Clock for monotonic time measuring
+* Add Stats for arithmetic operations
+* Add Perf#ips and Perf#cpu helper methods
+
+### Changed
+* Change to fix Ruby 2.7 warnings
+* Change to remove benchmark requirement
+* Change to remove #assert_perform_ips & #assert_perform_under
+
+### Fixed
+* Fix Iteration#run providing no measurements when warmup time exceeds bench time
+
 ## [v0.5.0] - 2019-04-21
 
 ### Added
@@ -59,6 +74,8 @@
 
 Initial release
 
+[v0.6.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.5.0...v0.6.0
+[v0.5.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.4.0...v0.5.0
 [v0.4.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/piotrmurach/benchmark-perf/compare/v0.2.1...v0.3.0
 [v0.2.1]: https://github.com/piotrmurach/benchmark-perf/compare/v0.2.0...v0.2.1
