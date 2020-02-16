@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "clock"
+require_relative "stats"
 
 module Benchmark
   module Perf
@@ -99,7 +100,7 @@ module Benchmark
           (cycles_in_100ms.to_f / time_s.to_f)
         end
 
-        [Perf.average(ips).round, Perf.std_dev(ips).round, iter, elapsed_time]
+        [Stats.average(ips).round, Stats.std_dev(ips).round, iter, elapsed_time]
       end
       module_function :run
     end # Iteration
