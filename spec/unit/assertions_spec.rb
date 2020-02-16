@@ -9,7 +9,9 @@ RSpec.describe Benchmark::Perf, 'assertions' do
 
   it "passes asertion by performing 10K ips" do
     bench = Benchmark::Perf
-    assertion = bench.assert_perform_ips(10_000, warmup: 1.3) { 'x' * 1_024 }
+    assertion = bench.assert_perform_ips(10_000, warmup: 0.1, time: 0.2) do
+      'x' * 1_024
+    end
     expect(assertion).to eq(true)
   end
 end
