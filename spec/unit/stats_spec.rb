@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Benchmark::Perf::Stats do
-  context '#average' do
+  context "#average" do
     it "calculates average without measurements" do
       expect(described_class.average([])).to eq(0)
     end
@@ -11,7 +11,7 @@ RSpec.describe Benchmark::Perf::Stats do
     end
   end
 
-  context '#variance' do
+  context "#variance" do
     it "calculates variance of no measurements" do
       expect(described_class.variance([])).to eq(0)
     end
@@ -21,7 +21,7 @@ RSpec.describe Benchmark::Perf::Stats do
     end
   end
 
-  context '#std_dev' do
+  context "#std_dev" do
     it "calculates standard deviation of no measurements" do
       expect(described_class.std_dev([])).to eq(0)
     end
