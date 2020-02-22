@@ -6,6 +6,7 @@ RSpec.describe Benchmark::Perf do
 
     expect(result).to contain_exactly(
       a_kind_of(Float),
+      a_kind_of(Float),
       a_kind_of(Float)
     )
   end

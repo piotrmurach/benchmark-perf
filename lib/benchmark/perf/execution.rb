@@ -91,6 +91,7 @@ module Benchmark
       # @api public
       def run(repeat: 1, io: nil, warmup: 1, subprocess: true, &work)
         check_greater(repeat, 0)
+
         measurements = []
 
         run_warmup(warmup: warmup, io: io, subprocess: subprocess, &work)
@@ -101,9 +102,12 @@ module Benchmark
             Clock.measure(&work)
           end
         end
+
+        elapsed_time_s = measurements.reduce(:+)
+
         io.puts if io
 
-        [Stats.average(measurements), Stats.std_dev(measurements)]
+        [Stats.average(measurements), Stats.std_dev(measurements), elapsed_time_s]
       end
       module_function :run
 

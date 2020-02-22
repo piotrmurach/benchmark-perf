@@ -79,7 +79,7 @@ RSpec.describe Benchmark::Perf::Execution do
   it "measures work performance for 10 samples" do
     sample = described_class.run(repeat: 10) { 'x' * 1_000_000 }
 
-    expect(sample.size).to eq(2)
-    expect(sample).to all(be < 0.01)
+    expect(sample.size).to eq(3)
+    expect(sample).to all(be < 0.02)
   end
 end
