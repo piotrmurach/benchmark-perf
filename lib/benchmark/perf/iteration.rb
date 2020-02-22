@@ -93,14 +93,13 @@ module Benchmark
           measurements << time_s
         end
 
-        final_time = Clock.now
-        elapsed_time = (final_time - before).abs
+        elapsed_time_s = measurements.reduce(:+)
 
         ips = measurements.map do |time_s|
           (cycles_in_100ms.to_f / time_s.to_f)
         end
 
-        [Stats.average(ips).round, Stats.std_dev(ips).round, iter, elapsed_time]
+        [Stats.average(ips).round, Stats.std_dev(ips).round, iter, elapsed_time_s]
       end
       module_function :run
     end # Iteration
