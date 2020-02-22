@@ -14,6 +14,7 @@ module Benchmark
         def initialize
           super()
           @last_time = Time.now.to_f
+          @lock = Mutex.new
         end
 
         if defined?(Process::CLOCK_MONOTONIC)
@@ -24,11 +25,13 @@ module Benchmark
         else
           # @api private
           def now
-            current = Time.now.to_f
-            if @last_time < current
-              @last_time = current
-            else # clock moved back in time
-              @last_time += 0.000_001
+            @lock.synchronize do
+              current = Time.now.to_f
+              if @last_time < current
+                @last_time = current
+              else # clock moved back in time
+                @last_time += 0.000_001
+              end
             end
           end
         end
