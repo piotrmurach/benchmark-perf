@@ -52,7 +52,16 @@ mean, stddev = Benchmark::Perf.cpu { ... }
 Or to see how many iterations per second a piece of code takes do:
 
 ```ruby
-mean, stddev, iter, elapsed_time = Benchmark::Perf.ips { ... }
+result = Benchmark::Perf.ips { ... }
+```
+
+Then you can query result for:
+
+```ruby
+result.avg    # => average ips
+result.stdev  # => ips stadard deviation
+result.iter   # => number of iterations
+result.dt     # => elapsed time
 ```
 
 ## 2. API
@@ -78,7 +87,7 @@ Benchmark::Perf.cpu(warmup: 2) { ... }
 If you're interested in having debug output to see exact measurements for each measurement sample use the `:io` option and pass alternative stream:
 
 ```ruby
-Benchmark::Perf::ExecutionTime.run(io: $stdout) { ... }
+Benchmark::Perf.cpu(io: $stdout) { ... }
 ```
 
 By default all measurements are done in subprocess to isolate the measured code from other process activities. Sometimes this may have some unintended consequences. For example, when code uses database connections and transactions, this may lead to lost connections. To switch running in subprocess off, use the `:subprocess` option:
@@ -94,7 +103,22 @@ Or use the environment variable `RUN_IN_SUBPROCESS` to toggle the behaviour.
 In order to check how many iterations per second a given code takes do:
 
 ```ruby
-mean, stddev, iter, elapsed_time = Benchmark::Perf.ips { ... }
+reuslt = Benchmark::Perf.ips { ... }
+```
+
+The result contains measurements that you can query:
+
+```ruby
+result.avg    # => average ips
+result.stdev  # => ips stadard deviation
+result.iter   # => number of iterations
+result.dt     # => elapsed time
+```
+
+Alternatively, the result can be deconstructed into variables:
+
+```ruby
+avg, stdev, iter, dt = *result
 ```
 
 By default `1` second is spent warming up Ruby VM, you can change this with the `:warmup` option that expects time value in seconds:
