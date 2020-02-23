@@ -74,10 +74,11 @@ module Benchmark
       end
       alias to_ary to_a
 
+      # A string representation of this instance
+      #
       # @api public
       def inspect
-        "#<#{self.class.name}:#{self.object_id} " +
-          "@avg=#{avg} @stdev=#{stdev} @iter=#{iter} @dt=#{dt}>"
+        "#<#{self.class.name} @avg=#{avg} @stdev=#{stdev} @iter=#{iter} @dt=#{dt}>"
       end
     end # IPSResult
   end # Perf

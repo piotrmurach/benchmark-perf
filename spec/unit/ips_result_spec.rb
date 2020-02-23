@@ -29,4 +29,13 @@ RSpec.describe Benchmark::Perf::IPSResult do
     expect(result.iter).to eq(200_000)
     expect(result.dt).to eq(4)
   end
+
+  it "inpsects content" do
+    result = described_class.new
+
+    result.add 1, 50_000
+    result.add 2, 100_000
+
+    expect(result.inspect).to eq("#<Benchmark::Perf::IPSResult @avg=50000 @stdev=0 @iter=150000 @dt=3>")
+  end
 end
