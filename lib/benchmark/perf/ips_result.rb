@@ -31,6 +31,7 @@ module Benchmark
         @ips << cycles_in_100ms.to_f / time_s.to_f
         @avg = NO_VALUE
         @stdev = NO_VALUE
+        @dt = NO_VALUE
       end
 
       # Average ips
