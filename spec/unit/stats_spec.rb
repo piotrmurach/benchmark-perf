@@ -21,13 +21,13 @@ RSpec.describe Benchmark::Perf::Stats do
     end
   end
 
-  context "#std_dev" do
+  context "#stdev" do
     it "calculates standard deviation of no measurements" do
-      expect(described_class.std_dev([])).to eq(0)
+      expect(described_class.stdev([])).to eq(0)
     end
 
     it "calculates standard deviation of measurements" do
-      expect(described_class.std_dev([1,2,3])).to eq(Math.sqrt(2.to_f/3))
+      expect(described_class.stdev([1,2,3])).to eq(Math.sqrt(2.to_f/3))
     end
   end
 end

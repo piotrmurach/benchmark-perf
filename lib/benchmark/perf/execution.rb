@@ -107,7 +107,7 @@ module Benchmark
 
         io.puts if io
 
-        [Stats.average(measurements), Stats.std_dev(measurements), elapsed_time_s]
+        [Stats.average(measurements), Stats.stdev(measurements), elapsed_time_s]
       end
       module_function :run
 

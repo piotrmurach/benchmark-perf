@@ -41,12 +41,12 @@ module Benchmark
       # @param [Array[Float]] measurements
       #
       # @api public
-      def std_dev(measurements)
+      def stdev(measurements)
         return 0 if measurements.empty?
 
         Math.sqrt(variance(measurements))
       end
-      module_function :std_dev
+      module_function :stdev
     end # Stats
   end # Perf
 end # Benchmark

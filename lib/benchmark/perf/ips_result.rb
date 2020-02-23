@@ -52,7 +52,7 @@ module Benchmark
       def stdev
         return @stdev unless @stdev == NO_VALUE
 
-        @stdev = Stats.std_dev(ips).round
+        @stdev = Stats.stdev(ips).round
       end
 
       # The time elapsed
