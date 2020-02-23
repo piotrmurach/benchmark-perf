@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "clock"
+require_relative "cpu_result"
 
 module Benchmark
   module Perf
@@ -92,22 +93,20 @@ module Benchmark
       def run(repeat: 1, io: nil, warmup: 1, subprocess: true, &work)
         check_greater(repeat, 0)
 
-        measurements = []
+        result = CPUResult.new
 
         run_warmup(warmup: warmup, io: io, subprocess: subprocess, &work)
 
         repeat.times do
           GC.start
-          measurements << run_in_subprocess(io: io, subprocess: subprocess) do
+          result << run_in_subprocess(io: io, subprocess: subprocess) do
             Clock.measure(&work)
           end
         end
 
-        elapsed_time_s = measurements.reduce(:+)
-
         io.puts if io
 
-        [Stats.average(measurements), Stats.stdev(measurements), elapsed_time_s]
+        result
       end
       module_function :run
 

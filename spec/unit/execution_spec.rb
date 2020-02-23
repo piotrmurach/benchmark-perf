@@ -12,9 +12,9 @@ RSpec.describe Benchmark::Perf::Execution do
   it "accepts custom number of samples" do
     allow(described_class).to receive(:run_in_subprocess).and_return(0.1)
 
-    described_class.run(repeat: 12, warmup: 0) { 'x' * 1024 }
+    described_class.run(repeat: 3, warmup: 0) { 'x' * 1024 }
 
-    expect(described_class).to have_received(:run_in_subprocess).exactly(12).times
+    expect(described_class).to have_received(:run_in_subprocess).exactly(3).times
   end
 
   it "runs warmup cycles" do
@@ -53,9 +53,9 @@ RSpec.describe Benchmark::Perf::Execution do
   end
 
   it "provides measurements for 30 samples by default" do
-    sample = described_class.run { 'x' * 1024 }
+    sample = described_class.run(warmup: 0) { 'x' * 1024 }
 
-    expect(sample).to all(be < 0.01)
+    expect(sample.to_a).to all(be < 0.01)
   end
 
   it "doesn't benchmark raised exception" do
@@ -65,9 +65,9 @@ RSpec.describe Benchmark::Perf::Execution do
   end
 
   it "measures complex object" do
-    sample = described_class.run { {foo: Object.new, bar: :piotr} }
+    sample = described_class.run(warmup: 0) { {foo: Object.new, bar: :piotr} }
 
-    expect(sample).to all(be < 0.01)
+    expect(sample.to_a).to all(be < 0.01)
   end
 
   it "executes code to warmup ruby vm" do
@@ -76,10 +76,10 @@ RSpec.describe Benchmark::Perf::Execution do
     expect(sample).to eq(1)
   end
 
-  it "measures work performance for 10 samples" do
-    sample = described_class.run(repeat: 10) { 'x' * 1_000_000 }
+  it "measures work performance for 3 samples" do
+    sample = described_class.run(repeat: 3) { 'x' * 1_000 }
 
-    expect(sample.size).to eq(3)
-    expect(sample).to all(be < 0.02)
+    expect(sample.to_a.size).to eq(3)
+    expect(sample.to_a).to all(be < 0.02)
   end
 end
