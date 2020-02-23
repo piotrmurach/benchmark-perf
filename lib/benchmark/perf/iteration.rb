@@ -2,6 +2,7 @@
 
 require_relative "clock"
 require_relative "stats"
+require_relative "ips_result"
 
 module Benchmark
   module Perf
@@ -81,25 +82,19 @@ module Benchmark
 
         GC.start
 
-        iter = 0
-        measurements = []
+        result = IPSResult.new
 
         target = (before = Clock.now) + time
 
         while Clock.now < target
           time_s = Clock.measure { call_times(cycles_in_100ms, &work) }
+
           next if time_s <= 0.0 # Iteration took no time
-          iter += cycles_in_100ms
-          measurements << time_s
+
+          result.add(time_s, cycles_in_100ms)
         end
 
-        elapsed_time_s = measurements.reduce(:+)
-
-        ips = measurements.map do |time_s|
-          (cycles_in_100ms.to_f / time_s.to_f)
-        end
-
-        [Stats.average(ips).round, Stats.std_dev(ips).round, iter, elapsed_time_s]
+        result
       end
       module_function :run
     end # Iteration

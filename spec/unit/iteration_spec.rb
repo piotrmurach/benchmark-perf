@@ -9,10 +9,10 @@ RSpec.describe Benchmark::Perf::Iteration do
   it "measures 10K iterations per second" do
     sample = described_class.run(warmup: 0.1, time: 0.2) { "x" * 1_000_000 }
 
-    expect(sample.size).to eq(4)
-    expect(sample[0]).to be > 150
-    expect(sample[1]).to be > 5
-    expect(sample[2]).to be > 150
+    expect(sample.to_a.size).to eq(4)
+    expect(sample.avg).to be > 150
+    expect(sample.stdev).to be > 5
+    expect(sample.iter).to be > 150
   end
 
   it "does't measure broken code" do
@@ -24,9 +24,9 @@ RSpec.describe Benchmark::Perf::Iteration do
   it "runs bnechmark correctly for time less than warmup" do
     sample = described_class.run(time: 0.1, warmup: 0.2) { "foo" + "bar" }
 
-    expect(sample[0]).to be > 0
-    expect(sample[1]).to be > 0
-    expect(sample[2]).to be > 0
-    expect(sample[3]).to be >= 0.1
+    expect(sample.avg).to be > 0
+    expect(sample.stdev).to be > 0
+    expect(sample.iter).to be > 0
+    expect(sample.dt).to be >= 0.1
   end
 end
