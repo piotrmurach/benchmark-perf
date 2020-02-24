@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
     "source_code_uri"   => "https://github.com/piotrmurach/benchmark-perf"
   }
 
-  spec.files            = Dir["lib/**/*", "LICENSE.txt"]
-  spec.extra_rdoc_files = ["README.md", "CHANGELOG.md"]
+  spec.files            = Dir["lib/**/*"]
+  spec.extra_rdoc_files = ["README.md", "CHANGELOG.md", "LICENSE.txt"]
   spec.require_paths    = ["lib"]
   spec.required_ruby_version = ">= 2.0.0"
 
