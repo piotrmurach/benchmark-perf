@@ -1,16 +1,20 @@
 # Change log
 
-## [v0.6.0] - 2020-02-16
+## [v0.6.0] - 2020-02-24
 
 ### Added
 * Add Clock for monotonic time measuring
 * Add Stats for arithmetic operations
 * Add Perf#ips and Perf#cpu helper methods
+* Add IPSResult to capture measurements and stats for iterations
+* Add CPUResult to capture measurements and stats for execution
 
 ### Changed
 * Change to fix Ruby 2.7 warnings
 * Change to remove benchmark requirement
 * Change to remove #assert_perform_ips & #assert_perform_under
+* Change module name from ExecutionTime to Execution
+* Change Iteration#run to measure only work elapsed time
 
 ### Fixed
 * Fix Iteration#run providing no measurements when warmup time exceeds bench time
