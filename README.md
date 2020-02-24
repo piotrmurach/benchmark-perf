@@ -46,7 +46,15 @@ Or install it yourself as:
 To see how long it takes to execute a piece of code do:
 
 ```ruby
-mean, stddev = Benchmark::Perf.cpu { ... }
+result = Benchmark::Perf.cpu { ... }
+```
+
+The result will have information about:
+
+```ruby
+result.avg    # => average time in sec
+result.stdev  # => standard deviation in sec
+result.dt     # => elapsed time in sec
 ```
 
 Or to see how many iterations per second a piece of code takes do:
@@ -73,7 +81,15 @@ By default `1` measurement is taken, and before that `1` warmup cycle is run.
 If you need to change how many measurements are taken, use the `:repeat` option:
 
 ```ruby
-mean, std_dev = Benchmark::Perf.cpu(repeat: 10) { ... }
+result = Benchmark::Perf.cpu(repeat: 10) { ... }
+```
+
+Then you can query result for the following information:
+
+```ruby
+result.avg    # => average time in sec
+result.stdev  # => standard deviation in sec
+result.dt     # => elapsed time in sec
 ```
 
 Increasing the number of measurements will lead to more stable results at the price of longer runtime.
