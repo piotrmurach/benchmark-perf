@@ -1,14 +1,14 @@
 # Benchmark::Perf
 
 [![Gem Version](https://badge.fury.io/rb/benchmark-perf.svg)][gem]
-[![Build Status](https://secure.travis-ci.org/piotrmurach/benchmark-perf.svg?branch=master)][travis]
+[![Actions CI](https://github.com/piotrmurach/benchmark-perf/workflows/CI/badge.svg?branch=master)][gh_actions_ci]
 [![Build status](https://ci.appveyor.com/api/projects/status/wv37qw3x5l9km5kl?svg=true)][appveyor]
 [![Code Climate](https://codeclimate.com/github/piotrmurach/benchmark-perf/badges/gpa.svg)][codeclimate]
 [![Coverage Status](https://coveralls.io/repos/github/piotrmurach/benchmark-perf/badge.svg?branch=master)][coverage]
 [![Inline docs](http://inch-ci.org/github/piotrmurach/benchmark-perf.svg?branch=master)][inchpages]
 
 [gem]: http://badge.fury.io/rb/benchmark-perf
-[travis]: http://travis-ci.org/piotrmurach/benchmark-perf
+[gh_actions_ci]: https://github.com/piotrmurach/benchmark-perf/actions?query=workflow%3ACI
 [appveyor]: https://ci.appveyor.com/project/piotrmurach/benchmark-perf
 [codeclimate]: https://codeclimate.com/github/piotrmurach/benchmark-perf
 [coverage]: https://coveralls.io/github/piotrmurach/benchmark-perf?branch=master
