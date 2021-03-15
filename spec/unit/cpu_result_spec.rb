@@ -33,6 +33,7 @@ RSpec.describe Benchmark::Perf::CPUResult do
     result.add 1.5
     result.add 2.5
 
-    expect(result.inspect).to eq("#<Benchmark::Perf::CPUResult @avg=2.0 @stdev=0.5 @dt=4.0>")
+    expect(result.inspect).to eq("#<Benchmark::Perf::CPUResult @avg=2.0 " \
+                                 "@stdev=0.5 @dt=4.0>")
   end
 end

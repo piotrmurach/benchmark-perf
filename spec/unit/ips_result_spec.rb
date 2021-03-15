@@ -36,6 +36,7 @@ RSpec.describe Benchmark::Perf::IPSResult do
     result.add 1, 50_000
     result.add 2, 100_000
 
-    expect(result.inspect).to eq("#<Benchmark::Perf::IPSResult @avg=50000 @stdev=0 @iter=150000 @dt=3>")
+    expect(result.inspect).to eq("#<Benchmark::Perf::IPSResult @avg=50000 " \
+                                 "@stdev=0 @iter=150000 @dt=3>")
   end
 end

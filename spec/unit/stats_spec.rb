@@ -7,7 +7,7 @@ RSpec.describe Benchmark::Perf::Stats do
     end
 
     it "calculates average with measurements" do
-      expect(described_class.average([1,2,3])).to eq(2.0)
+      expect(described_class.average([1, 2, 3])).to eq(2.0)
     end
   end
 
@@ -17,7 +17,7 @@ RSpec.describe Benchmark::Perf::Stats do
     end
 
     it "calculates variance of measurements" do
-      expect(described_class.variance([1,2,3])).to eq(2.to_f/3)
+      expect(described_class.variance([1, 2, 3])).to eq(2.to_f/3)
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe Benchmark::Perf::Stats do
     end
 
     it "calculates standard deviation of measurements" do
-      expect(described_class.stdev([1,2,3])).to eq(Math.sqrt(2.to_f/3))
+      expect(described_class.stdev([1, 2, 3])).to eq(Math.sqrt(2.to_f/3))
     end
   end
 end

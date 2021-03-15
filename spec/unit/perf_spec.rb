@@ -20,7 +20,7 @@ RSpec.describe Benchmark::Perf do
       a_kind_of(Integer),
       a_kind_of(Integer),
       a_kind_of(Integer),
-      a_kind_of(Float),
+      a_kind_of(Float)
     )
   end
 end
